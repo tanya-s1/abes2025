@@ -1,0 +1,60 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+
+using namespace std;
+
+bool isPrime(int n) {
+    if (n <= 1) return false;
+    for (int i = 2; i <= sqrt(n); i++) {
+        if (n % i == 0) return false;
+    }
+    return true;
+}
+
+vector<int> processArray(vector<int>& arr) {
+    vector<int> primes, nonPrimes;
+
+    for (int num : arr) {
+        if (isPrime(num)) {
+            primes.push_back(num);
+        } else {
+            nonPrimes.push_back(num);
+        }
+    }
+
+    sort(primes.begin(), primes.end());
+
+    sort(nonPrimes.begin(), nonPrimes.end(), greater<int>());
+
+    vector<int> result;
+
+    if (!primes.empty()) {
+        result.push_back(primes.back()); 
+        primes.pop_back();
+    }
+
+    result.insert(result.end(), nonPrimes.begin(), nonPrimes.end());
+
+    if (!primes.empty()) {
+        result.push_back(primes.front()); 
+    }
+
+    return result;
+}
+
+int main() {
+    vector<int> arr = {1, 6, 4, 13, 9, 3};
+
+    vector<int> result = processArray(arr);
+
+
+    cout << "Output for arr: ";
+    for (int num : result) {
+        cout << num << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
